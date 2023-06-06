@@ -1,6 +1,9 @@
 import express, { Application, Request, Response } from 'express';
 import { uploadFiles } from './controllers/s3.controller';
+import multer from 'multer';
 import bodyParser from 'body-parser';
+const cors = require('cors');
+
 
 const app: Application = express();
 
@@ -8,13 +11,16 @@ const PORT: number = 3001;
 
 const router = express.Router();
 
-// app.use('/', (req: Request, res: Response): void => {
-//     res.json({test: 'a'});
-// });
+const upload = multer({ dest: 'uploads/' }); 
 
-// TODO CALL uploadFiles DEL CONTROLLER S3.CONTROLLER
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 router.post('/upload', async (req: Request, res: Response): Promise<void> => uploadFiles(req, res));
+const filesRequest = [
+    {name: 'file', maxCount:1}
+];
+router.post('/upload-file', upload.fields(filesRequest) ,async (req: Request, res: Response): Promise<void> => uploadFiles(req, res));
 
 app.use('/api',router);
 
