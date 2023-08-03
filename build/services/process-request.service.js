@@ -5,14 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProccessRequests = void 0;
 const file_model_1 = require("../models/file.model");
-const s3_service_1 = require("./s3.service");
 const fs_1 = __importDefault(require("fs"));
+const s3_simple_mannager_1 = require("s3-simple-mannager");
 // const { AWS_REGION, ENDPOINT } = process.env;
 const AWS_REGION = 'us-west-2';
 const ENDPOINT = 'https://sfo2.digitaloceanspaces.com';
 class ProccessRequests {
     constructor() {
-        this.s3Mannager = new s3_service_1.S3Service(AWS_REGION, ENDPOINT);
+        this.s3Mannager = new s3_simple_mannager_1.S3Service(AWS_REGION, ENDPOINT);
     }
     async proccessUpload(req) {
         const { body, files } = req;

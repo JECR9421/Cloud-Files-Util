@@ -21,7 +21,7 @@ const filesRequest = [
     {name: 'file', maxCount:1}
 ];
 router.post('/upload-file', upload.fields(filesRequest) ,async (req: Request, res: Response): Promise<void> => uploadFiles(req, res));
-
+//Todo get con query params para dowload
 app.use('/api',router);
 
 app.listen(PORT, (): void => {
