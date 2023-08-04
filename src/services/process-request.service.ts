@@ -45,7 +45,7 @@ export class ProccessRequests {
     async _downLoadFile(req:any): Promise<string>{
         try{
             const { bucket,folder,fileName, downloadAsBase64 } = req;
-            const pathToDownload = 'tmp';
+            const pathToDownload = 'C:/DSign/Temp';
             if(!fs.existsSync(pathToDownload)) {
                 fs.mkdirSync(pathToDownload);
             }
@@ -53,7 +53,7 @@ export class ProccessRequests {
             if (fs.existsSync(fileLocal)) {
                 fs.unlinkSync(fileLocal);
             }
-           const result = await this.s3Mannager.dowload(bucket, fileName, folder, fileLocal);
+           const result = await this.s3Mannager.dowload(bucket, fileName, folder, pathToDownload);
            // @ts-ignore
            const {success, error} = result;
           if (!success) {
