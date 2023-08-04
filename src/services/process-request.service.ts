@@ -53,9 +53,12 @@ export class ProccessRequests {
             if (fs.existsSync(fileLocal)) {
                 fs.unlinkSync(fileLocal);
             }
-           await this.s3Mannager.dowload(bucket, fileName, folder, fileLocal);
-            if (!fs.existsSync(fileLocal)) {
-                throw 'File failed to download';
+           const result = await this.s3Mannager.dowload(bucket, fileName, folder, fileLocal);
+           // @ts-ignore
+           const {success, error} = result;
+          if (!success) {
+                console.error(result);
+                throw {error};
             }
             return downloadAsBase64 ? fs.readFileSync(fileLocal, { encoding: 'base64' }) : fileLocal;
         }catch (e) {

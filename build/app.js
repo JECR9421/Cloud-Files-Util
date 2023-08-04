@@ -20,6 +20,8 @@ const filesRequest = [
     { name: 'file', maxCount: 1 }
 ];
 router.post('/upload-file', upload.fields(filesRequest), async (req, res) => (0, s3_controller_1.uploadFiles)(req, res));
+router.get('/download-file', async (req, res) => (0, s3_controller_1.downloadFiles)(req, res));
+//Todo get con query params para dowload
 app.use('/api', router);
 app.listen(PORT, () => {
     console.log('env', process.env);

@@ -42,6 +42,30 @@ class ProccessRequests {
             throw e;
         }
     }
+    async _downLoadFile(req) {
+        try {
+            const { bucket, folder, fileName, downloadAsBase64 } = req;
+            const pathToDownload = 'tmp';
+            if (!fs_1.default.existsSync(pathToDownload)) {
+                fs_1.default.mkdirSync(pathToDownload);
+            }
+            const fileLocal = `${pathToDownload}/${fileName}`;
+            if (fs_1.default.existsSync(fileLocal)) {
+                fs_1.default.unlinkSync(fileLocal);
+            }
+            const result = await this.s3Mannager.dowload(bucket, fileName, folder, fileLocal);
+            // @ts-ignore
+            const { success, error } = result;
+            if (!success) {
+                console.error(result);
+                throw { error };
+            }
+            return downloadAsBase64 ? fs_1.default.readFileSync(fileLocal, { encoding: 'base64' }) : fileLocal;
+        }
+        catch (e) {
+            throw e;
+        }
+    }
 }
 exports.ProccessRequests = ProccessRequests;
 ;
