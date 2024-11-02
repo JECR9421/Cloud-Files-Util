@@ -21,6 +21,7 @@ const filesRequest = [
     {name: 'file', maxCount:1}
 ];
 router.post('/upload-file', upload.fields(filesRequest) ,async (req: Request, res: Response): Promise<void> => uploadFiles(req, res));
+router.post('/upload-files-multiple', upload.array('files', 10) ,async (req: Request, res: Response): Promise<void> => uploadFiles(req, res));
 router.get('/download-file',  async (req: Request, res: Response): Promise<void> => downloadFiles(req, res));
 //Todo get con query params para dowload
 app.use('/api',router);

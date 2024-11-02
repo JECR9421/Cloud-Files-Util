@@ -18,12 +18,7 @@ export class ProccessRequests {
             // do multiple
         }
 
-        if(files) { 
-            // let test = {};
-            // Object.keys(files).forEach((key)=> {
-            //    console.log(files[key]);
-            // });
-            // console.log('files', Object.keys(files), file);
+        if(files) {
             // @ts-ignore
             body.pathFile = files.file[0].path;
         }
