@@ -12,9 +12,10 @@ const PORT: number = 3001;
 const router = express.Router();
 
 const upload = multer({ dest: 'uploads/' }); 
+const requestBodyLimit = '50mb';
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ limit: requestBodyLimit }));
+app.use(bodyParser.urlencoded({ extended: false, limit: requestBodyLimit }));
 app.use(cors());
 router.post('/upload', async (req: Request, res: Response): Promise<void> => uploadFiles(req, res));
 const filesRequest = [
