@@ -36,6 +36,7 @@ export class ProccessRequests {
             const file = new File(bucket, fileName,folder,base64);
             const buffer = base64 ? Buffer.from(file.base64, 'base64') : fs.readFileSync(pathFile);
             const result = await this.s3Mannager.upload(file.bucket,buffer,file.fileName,undefined,path);
+            if(pathFile) fs.unlinkSync(pathFile);
             return result;
         }catch (e) {
             throw e; 
@@ -54,7 +55,12 @@ export class ProccessRequests {
                 console.error(result);
                 throw {error};
             }
-            return downloadAsBase64 ? fs.readFileSync(fileLocal, { encoding: 'base64' }) : fileLocal;
+            let fileBase64 = '';
+            if(downloadAsBase64){
+                fileBase64 = fs.readFileSync(fileLocal, { encoding: 'base64' });
+                fs.unlinkSync(fileLocal);
+            }
+            return downloadAsBase64 ? fileBase64 : fileLocal;
         }catch (e) {
             throw e; 
         }
